@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bank card App</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="css/stylebd.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datatime.js"></script>
+</head>
+
+<body>
+<div class="row">
+    <h1>Bank Card Application</h1> 
+    <div class="card">
+      <div class="card-body">
+
+        <form action="" method="POST">
+            <label for="csvfile" class="form-label">Insérer vos données: </label>
+            <textarea name="csv_file" id="csvfile" class="form-control" cols="40" rows="5"></textarea>
+          <button class="btn btn-success mt-2">Soumettre le CSV</button>
+          </form>
+      </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+  {% if  request.method == 'POST' %}
+    <table class="display table responsive" style="width: 100%">
+      <thead>
+          <tr>
+            <!-- 'CLIENTNUM','Gender', 'Marital_Status', 'Income_Category', 'Card_Category', 'Months_Inactive_12_mon', 'Avg_Utilization_Ratio', 'Total_Relationship_Count', 'Attrition_Flag' -->
+            {% for header in fieldnames %}
+              <th> {{header}} </th>
+            {% endfor %}
+              <th> Prédiction </th>
+          </tr>
+      </thead>
+      <tbody>
+
+          {% for row in new_results %}
+          {% set new_results_loop = loop %}
+          <tr>
+             {% for index in range(0, len(fieldnames)) %}
+             {% set fieldnames_loop = loop %}
+             <td>{{row[index]}}</td>
+
+
+             {% if ((fieldnames_loop.index ) == (len(fieldnames))) %}
+             <td> {{prediction[new_results_loop.index - 1]}}</td>
+             {% endif %}
+             {% endfor %}
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+    {% endif %}
+</div>
+
+        
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+   <script type="text/javascript">
+    $('#proxies').DataTable();
+   </script>
+
+
+</html>
+
